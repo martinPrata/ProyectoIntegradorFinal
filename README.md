@@ -1,0 +1,1 @@
+Buenas tarde profe, envio el proyecto casi terminado, ya que tenia un error que no me permitio avanzar, la parte del backend esta como al 90% completa y el front tambien hice bastante. Un saludo y gracias por las clases y la buena onda que tuvo durante todo el bootcamp-
