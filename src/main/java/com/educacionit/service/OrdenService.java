@@ -1,14 +1,12 @@
 package com.educacionit.service;
 
+import com.educacionit.entity.Orden;
+import com.educacionit.repository.OrdenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.educacionit.dto.OrdenDTO;
-import com.educacionit.entity.Orden;
-import com.educacionit.repository.OrdenRepository;
-
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class OrdenService {
@@ -16,46 +14,30 @@ public class OrdenService {
     @Autowired
     private OrdenRepository ordenRepository;
 
-    public List<OrdenDTO> getAllOrders() {
-        List<Orden> orders = ordenRepository.findAll();
-        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<Orden> getAllOrdenes() {
+        return ordenRepository.findAll();
     }
 
-    public OrdenDTO getOrderById(Long id) {
-        Orden order = ordenRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        return convertToDto(order);
+    public Orden getOrdenById(Long id) {
+        Optional<Orden> orden = ordenRepository.findById(id);
+        return orden.orElse(null);
     }
 
-    public OrdenDTO createOrder(OrdenDTO ordenDTO) {
-        Orden order = convertToEntity(ordenDTO);
-        Orden savedOrder = ordenRepository.save(order);
-        return convertToDto(savedOrder);
+    public Orden createOrden(Orden orden) {
+        return ordenRepository.save(orden);
     }
 
-    public OrdenDTO updateOrder(Long id, OrdenDTO ordenDTO) {
-        Orden order = ordenRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        order.setField1(ordenDTO.getField1()); // Example field
-        order.setField2(ordenDTO.getField2()); // Example field
-        Orden updatedOrder = ordenRepository.save(order);
-        return convertToDto(updatedOrder);
+    public Orden updateOrden(Long id, Orden orden) {
+        if (ordenRepository.existsById(id)) {
+            orden.setId(id);
+            return ordenRepository.save(orden);
+        }
+        return null;
     }
 
-    public void deleteOrder(Long id) {
-        ordenRepository.deleteById(id);
-    }
-
-    private OrdenDTO convertToDto(Orden order) {
-        OrdenDTO ordenDTO = new OrdenDTO();
-        ordenDTO.setId(order.getId());
-        ordenDTO.setField1(order.getField1());
-        ordenDTO.setField2(order.getField2());
-        return ordenDTO;
-    }
-
-    private Orden convertToEntity(OrdenDTO ordenDTO) {
-        Orden order = new Orden();
-        order.setField1(ordenDTO.getField1());
-        order.setField2(ordenDTO.getField2());
-        return order;
+    public void deleteOrden(Long id) {
+        if (ordenRepository.existsById(id)) {
+            ordenRepository.deleteById(id);
+        }
     }
 }

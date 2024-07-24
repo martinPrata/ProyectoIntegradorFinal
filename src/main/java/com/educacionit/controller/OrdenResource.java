@@ -1,42 +1,51 @@
 package com.educacionit.controller;
 
+import com.educacionit.entity.Orden;
+import com.educacionit.service.OrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.educacionit.service.OrdenService;
-import com.educacionit.dto.OrdenDTO;
-
 import java.util.List;
-
-@RestController
-@RequestMapping("/orders")
-public class OrdenResource {
-
-    @Autowired
-    private OrdenService ordenService;
-
-    @GetMapping
-    public List<OrdenDTO> getAllOrders() {
-        return ordenService.getAllOrders();
-    }
-
-    @GetMapping("/{id}")
-    public OrdenDTO getOrderById(@PathVariable Long id) {
-        return ordenService.getOrderById(id);
-    }
-
-    @PostMapping
-    public OrdenDTO createOrder(@RequestBody OrdenDTO ordenDTO) {
-        return ordenService.createOrder(ordenDTO);
-    }
-
-    @PutMapping("/{id}")
-    public OrdenDTO updateOrder(@PathVariable Long id, @RequestBody OrdenDTO ordenDTO) {
-        return ordenService.updateOrder(id, ordenDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        ordenService.deleteOrder(id);
-    }
-}
+//
+//@RestController
+//@RequestMapping("/ordenes")
+//public class OrdenResource {
+//
+//    @Autowired
+//    private OrdenService ordenService;
+//
+//    @GetMapping
+//    public List<Orden> getAllOrdenes() {
+//        return ordenService.getAllOrdenes();
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Orden> getOrdenById(@PathVariable Long id) {
+//        Orden orden = ordenService.getOrdenById(id);
+//        if (orden == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(orden);
+//    }
+//
+//    @PostMapping
+//    public Orden createOrden(@RequestBody Orden orden) {
+//        return ordenService.createOrden(orden);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Orden> updateOrden(@PathVariable Long id, @RequestBody Orden orden) {
+//        Orden updatedOrden = ordenService.updateOrden(id, orden);
+//        if (updatedOrden == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(updatedOrden);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteOrden(@PathVariable Long id) {
+//        ordenService.deleteOrden(id);
+//        return ResponseEntity.noContent().build();
+//    }
+//}

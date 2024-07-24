@@ -1,24 +1,30 @@
 package com.educacionit.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.educacionit.entity.Role;
 import com.educacionit.entity.User;
 import com.educacionit.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public void addRoleToUser(Long userId, Role role) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.getRoles().add(role);
+            userRepository.save(user);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }
